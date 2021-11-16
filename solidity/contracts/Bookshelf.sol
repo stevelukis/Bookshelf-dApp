@@ -7,6 +7,7 @@ import "hardhat/console.sol";
 contract Bookshelf is Ownable {
 
     event AddBook(address recipient, uint bookId);
+    event SetFinished(uint bookId, bool finished);
 
     struct Book {
         string name;
@@ -61,6 +62,13 @@ contract Bookshelf is Ownable {
             result[i] = temporary[i];
         }
         return result;
+    }
+
+    function setFinished(uint bookId, bool finished) external {
+        if (bookToOwner[bookId] == msg.sender) {
+            bookList[bookId].finished = finished;
+            emit SetFinished(bookId, finished);
+        }
     }
 
 }

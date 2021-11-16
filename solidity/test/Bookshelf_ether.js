@@ -93,4 +93,18 @@ describe("Bookshelf Contract", function () {
             verifyBookList(booksFromChain, finishedBookList);
         })
     })
+    describe("Set Finished", function() {
+        it("Should emit SetFinished event", async function () {
+            const BOOK_ID = 0;
+            const BOOK_FINISHED = true;
+
+            await expect(
+                bookshelf.setFinished(BOOK_ID, BOOK_FINISHED)
+            ).to.emit(
+                bookshelf, 'SetFinished'
+            ).withArgs(
+                BOOK_ID, BOOK_FINISHED
+            )
+        })
+    })
 })
