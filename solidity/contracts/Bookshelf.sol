@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "hardhat/console.sol";
-
-contract Bookshelf is Ownable {
+contract Bookshelf {
 
     event AddBook(address recipient, uint bookId);
     event SetFinished(uint bookId, bool finished);

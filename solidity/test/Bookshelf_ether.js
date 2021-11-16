@@ -63,11 +63,6 @@ describe("Bookshelf Contract", function () {
         }
     })
 
-    describe("Deployment", function () {
-        it("Should have the correct owner", async function () {
-            expect(await bookshelf.owner()).to.equal(owner.address);
-        })
-    })
     describe("Add Book", function () {
         it("Should emit AddBook event", async function () {
             let book = {
