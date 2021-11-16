@@ -67,6 +67,22 @@ describe("Bookshelf Contract", function () {
         it("Should have the correct owner", async function () {
             expect(await bookshelf.owner()).to.equal(owner.address);
         })
+    })
+    describe("Add Book", function () {
+        it("Should emit AddBook event", async function () {
+            let book = {
+                'name': getRandomInt(1, 1000).toString(),
+                'year': getRandomInt(1800, 2021),
+                'author': getRandomInt(1, 1000).toString(),
+                'finished': true
+            };
+            await expect(
+                bookshelf.addBook(book.name, book.year, book.author, book.finished)
+            ).to.emit(bookshelf, 'AddBook')
+                .withArgs(owner.address, NUM_UNFINISHED_BOOK + NUM_FINISHED_BOOK)
+        })
+    })
+    describe("Get Book", function () {
         it("Should return the correct unfinished books", async function () {
             const booksFromChain = await bookshelf.getUnfinishedBooks()
             expect(booksFromChain.length).to.equal(NUM_UNFINISHED_BOOK);
@@ -77,5 +93,4 @@ describe("Bookshelf Contract", function () {
             verifyBookList(booksFromChain, finishedBookList);
         })
     })
-
 })
