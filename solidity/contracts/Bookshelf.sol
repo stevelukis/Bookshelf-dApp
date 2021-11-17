@@ -23,12 +23,12 @@ contract Bookshelf {
         emit AddBook(msg.sender, bookId);
     }
 
-    function getUnfinishedBooks() external view returns (Book[] memory) {
+    function _getBookList(bool finished) private view returns (Book[] memory) {
         Book[] memory temporary = new Book[](bookList.length);
         uint counter = 0;
         for (uint i = 0; i < bookList.length; i++) {
             if (bookToOwner[i] == msg.sender) {
-                if (!bookList[i].finished) {
+                if (bookList[i].finished == finished) {
                     temporary[counter] = bookList[i];
                     counter++;
                 }
@@ -42,23 +42,12 @@ contract Bookshelf {
         return result;
     }
 
-    function getFinishedBooks() external view returns (Book[] memory) {
-        Book[] memory temporary = new Book[](bookList.length);
-        uint counter = 0;
-        for (uint i = 0; i < bookList.length; i++) {
-            if (bookToOwner[i] == msg.sender) {
-                if (bookList[i].finished) {
-                    temporary[counter] = bookList[i];
-                    counter++;
-                }
-            }
-        }
+    function getUnfinishedBooks() external view returns (Book[] memory) {
+        return _getBookList(false);
+    }
 
-        Book[] memory result = new Book[](counter);
-        for (uint i = 0; i < counter; i++) {
-            result[i] = temporary[i];
-        }
-        return result;
+    function getFinishedBooks() external view returns (Book[] memory) {
+        return _getBookList(true);
     }
 
     function setFinished(uint bookId, bool finished) external {
